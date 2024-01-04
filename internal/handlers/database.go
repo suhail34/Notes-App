@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"crypto/tls"
 	"log"
 	"os"
 
@@ -18,10 +19,10 @@ type DB struct {
 func Connect() *DB {
 	err := godotenv.Load()
 	if err != nil {
-		log.Print("Print Loading .env file")
+		log.Print("Print Loading .env file caused error")
 	}
 	var connectionString string = os.Getenv("MONGO_URI")
-	clientOptions := options.Client().ApplyURI(connectionString)
+	clientOptions := options.Client().ApplyURI(connectionString).SetTLSConfig(&tls.Config{InsecureSkipVerify: true})
 	ctx := context.Background()
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {

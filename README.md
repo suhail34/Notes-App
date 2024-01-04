@@ -8,7 +8,7 @@
     <p><a href="https://www.docker.com/get-started/">Docker</a> need to be installed to run it inside a container if you are running it inside the container no need to install golang </p>
   </li>
   <li>
-    <p>Create .env file in root and add two variables <code>SECRET_KEY</code> and <code>MONGO_URI</code></p>
+    <p>Create .env file in root and add two variables <code>SECRET_KEY=<YOUR_SECRET_KEY></code> and <code>MONGO_URI=mongodb+srv://<username>:<password>@<clusterURL>/?retryWrites=true&w=majority&ssl=false</code></p>
   </li>
 </ul>
 <h3>Run The Program</h3>
@@ -20,6 +20,6 @@
     <p>To run the server in docker container use <code>make server-container-start</code></p>
   </li>
   <li>
-    <p>To stop ther server and delete the container use <code>make server-container-stop</code></p>
+    <p>To stop the server and delete the container use <code>make server-container-stop</code></p>
   </li>
 </ul>
