@@ -16,10 +16,11 @@ type DB struct {
 	client *mongo.Client
 }
 
-func Connect() *DB {
+func Connect() (*DB, error) {
 	err := godotenv.Load()
 	if err != nil {
 		log.Print("Print Loading .env file caused error")
+    return nil, err
 	}
 	var connectionString string = os.Getenv("MONGO_URI")
 	clientOptions := options.Client().ApplyURI(connectionString).SetTLSConfig(&tls.Config{InsecureSkipVerify: true})
@@ -27,13 +28,15 @@ func Connect() *DB {
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		log.Print("Can't Connect to Database : ", err)
+    return nil, err
 	}
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
 		log.Print("Error Pinging MongoDB : ", err)
+    return nil, err
 	}
 	log.Print("Connected to MongoDB Atlas")
 	return &DB{
 		client: client,
-	}
+	}, nil
 }

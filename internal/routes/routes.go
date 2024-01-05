@@ -6,21 +6,21 @@ import (
 	"github.com/suhail34/notes-api/internal/middlewares"
 )
 
-func SetupRoutes(app *gin.Engine) {
+func SetupRoutes(app *gin.Engine, db *handlers.DB) {
 	authGroup := app.Group("/api/auth")
 	{
-		authGroup.POST("/signup", handlers.Connect().SignUpHandler)
-		authGroup.POST("/login", handlers.Connect().LoginHandler)
+		authGroup.POST("/signup", db.SignUpHandler)
+		authGroup.POST("/login", db.LoginHandler)
 	}
 	noteGroup := app.Group("/api/notes")
 	noteGroup.Use(middlewares.AuthMiddleware())
 	{
-		noteGroup.POST("/", handlers.Connect().CreateNotes)
-    noteGroup.GET("/", handlers.Connect().GetAllNotesHandler)
-    noteGroup.GET("/:id", handlers.Connect().GetNoteHandler)
-    noteGroup.PUT("/:id", handlers.Connect().UpdateNoteHandler)
-    noteGroup.DELETE("/:id", handlers.Connect().DeleteNoteHandler)
-    noteGroup.POST("/:id/share", handlers.Connect().ShareNoteHandler)
-    noteGroup.GET("/search", handlers.Connect().SearchTextOnNotes)
+		noteGroup.POST("/", db.CreateNotes)
+    noteGroup.GET("/", db.GetAllNotesHandler)
+    noteGroup.GET("/:id", db.GetNoteHandler)
+    noteGroup.PUT("/:id", db.UpdateNoteHandler)
+    noteGroup.DELETE("/:id", db.DeleteNoteHandler)
+    noteGroup.POST("/:id/share", db.ShareNoteHandler)
+    noteGroup.GET("/search", db.SearchTextOnNotes)
 	}
 }
